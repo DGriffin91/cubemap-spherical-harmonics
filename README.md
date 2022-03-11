@@ -61,6 +61,6 @@ fn irradianceSH(n: vec3<f32>) -> vec3<f32> {
 
 [[stage(fragment)]]
 fn fragment(in: FragmentInput) -> [[location(0)]] vec4<f32> {
-    return vec4<f32>(vec3<f32>(irradianceSH(normalize(in.world_normal.xyz))), 1.0);
+    return vec4<f32>(irradianceSH(normalize(in.world_normal.xyz)), 1.0);
 }
 ```
