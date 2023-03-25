@@ -58,8 +58,8 @@ pub fn process(faces: &[ImageBuffer<Rgb<f32>, Vec<f32>>]) -> anyhow::Result<[Vec
     // Forsyth's weights
     let weight1 = 4.0 / 17.0;
     let weight2 = 8.0 / 17.0;
-    let weight3 = 5.0 / 68.0;
-    let weight4 = 15.0 / 17.0;
+    let weight3 = 15.0 / 17.0;
+    let weight4 = 5.0 / 68.0;
     let weight5 = 15.0 / 68.0;
 
     for (idx, face) in faces.iter().enumerate() {
@@ -108,14 +108,14 @@ pub fn process(faces: &[ImageBuffer<Rgb<f32>, Vec<f32>>]) -> anyhow::Result<[Vec
 
                 sh[0] += color * weight1;
 
-                sh[1] += color * weight2 * tex_v.y;
-                sh[2] += color * weight2 * tex_v.z;
-                sh[3] += color * weight2 * tex_v.x;
+                sh[1] += color * weight2 * tex_v.x;
+                sh[2] += color * weight2 * tex_v.y;
+                sh[3] += color * weight2 * tex_v.z;
 
-                sh[4] += color * weight3 * tex_v.y * tex_v.x;
-                sh[5] += color * weight3 * tex_v.y * tex_v.z;
-                sh[6] += color * weight3 * (3.0 * tex_v.z * tex_v.z - 1.0);
-                sh[7] += color * weight4 * tex_v.z * tex_v.x;
+                sh[4] += color * weight3 * tex_v.x * tex_v.z;
+                sh[5] += color * weight3 * tex_v.z * tex_v.y;
+                sh[6] += color * weight3 * tex_v.y * tex_v.x;
+                sh[7] += color * weight4 * (3.0 * tex_v.z * tex_v.z - 1.0);
                 sh[8] += color * weight5 * (tex_v.x * tex_v.x - tex_v.y * tex_v.y);
 
                 weight_accum += weight * 3.0;
@@ -179,14 +179,14 @@ mod tests {
             sh,
             [
                 Vec3::new(0.48503733, 0.48316428, 0.32759333),
+                Vec3::new(-0.26511002, 0.2617326, -0.0001285886),
                 Vec3::new(-0.26024902, -0.26002043, 0.26548815),
                 Vec3::new(0.2476333, 0.24728885, 0.24757174),
-                Vec3::new(-0.26511002, 0.2617326, -0.0001285886),
-                Vec3::new(-3.3611246e-5, -3.8461396e-5, 1.5085657e-5),
-                Vec3::new(8.057594e-5, 7.771898e-5, 1.5798581e-5),
+                Vec3::new(0.00032010232, 0.00019238597, 0.0005412985),
+                Vec3::new(0.0009668731, 0.0009325959, 0.00018943335),
+                Vec3::new(-0.00040348107, -0.00046164956, 0.00018102766),
                 Vec3::new(0.0044354284, 0.0049572727, 0.030710248),
-                Vec3::new(0.00032010113, 0.00019238573, 0.00054129824),
-                Vec3::new(0.002222224, 0.000540525, -0.08147548)
+                Vec3::new(0.002222224, 0.000540525, -0.08147548),
             ]
         );
     }
